@@ -19,6 +19,20 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+[id] {
+  scroll-margin-top: 6rem;
+}
+
 body {
   background-color: var(--bg-dark);
   color: var(--text-main);
@@ -97,12 +111,15 @@ header {
   top: 0;
   left: 0;
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
   z-index: 100;
-  mix-blend-mode: difference;
+  background: linear-gradient(to bottom, rgba(2, 4, 10, 0.85), rgba(2, 4, 10, 0));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .logo {
@@ -112,6 +129,51 @@ header {
   color: #fff;
   letter-spacing: 0.1em;
   text-decoration: none;
+  flex-shrink: 0;
+}
+
+/* Primary navigation */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+.nav a {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--text-main);
+}
+
+.nav-cta {
+  display: inline-block;
+  padding: 0.6rem 1.25rem;
+  border: 1px solid var(--signal-amber);
+  color: var(--signal-amber);
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.nav-cta:hover {
+  background: var(--signal-amber);
+  color: var(--bg-dark);
+}
+
+@media (max-width: 860px) {
+  .nav {
+    display: none;
+  }
 }
 
 .status {
@@ -302,6 +364,51 @@ header {
   color: var(--signal-amber);
 }
 
+/* Contact CTA */
+.contact h2 {
+  max-width: 18ch;
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-top: 2.5rem;
+}
+
+.btn {
+  display: inline-block;
+  font-family: var(--font-mono);
+  letter-spacing: 0.03em;
+  font-size: 0.95rem;
+  padding: 0.9rem 1.75rem;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: var(--signal-amber);
+  color: var(--bg-dark);
+  border: 1px solid var(--signal-amber);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--signal-amber);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-main);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.btn-ghost:hover {
+  border-color: var(--signal-amber);
+  color: var(--signal-amber);
+}
+
 /* Footer */
 footer {
   padding: 4rem 0;
@@ -342,3 +449,170 @@ footer {
     transition: none !important;
   }
 }
+
+/* ============================================================
+   INVESTOR RESTRUCTURE — tier / status / story / case systems
+   (additive; reuses existing tokens + .card/.reveal/.container)
+   ============================================================ */
+:root {
+  --signal-green: #34d399;        /* PROVEN / LIVE */
+  --signal-green-dim: rgba(52, 211, 153, 0.12);
+  --signal-violet: #a78bfa;       /* FRONTIER / the race */
+  --signal-violet-dim: rgba(167, 139, 250, 0.12);
+}
+
+/* Section intro lead paragraph */
+.lead {
+  font-size: 1.25rem;
+  color: var(--text-main);
+  max-width: 58ch;
+  margin-bottom: 1rem;
+}
+
+/* Status pills (inline, e.g. in section labels and cards) */
+.pill {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.68rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  line-height: 1;
+}
+.pill-live      { color: var(--signal-green);  background: var(--signal-green-dim); }
+.pill-staged    { color: var(--signal-amber);  background: var(--signal-amber-dim); }
+.pill-frontier  { color: var(--signal-violet); background: var(--signal-violet-dim); }
+.pill-heritage  { color: var(--text-muted); }
+
+/* Section label can carry a trailing pill without breaking the rule line */
+.section-label .pill { margin-left: 0.25rem; }
+
+/* Story / capability cards: a status tag row at the top */
+.card .tag-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.card.proven   { border-color: rgba(52, 211, 153, 0.18); }
+.card.proven:hover   { border-color: rgba(52, 211, 153, 0.45); }
+.card.frontier:hover { border-color: rgba(167, 139, 250, 0.45); }
+
+.card .sectors {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  letter-spacing: 0.03em;
+}
+
+/* Historical case-study grid */
+.case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 1.75rem;
+  margin-top: 4rem;
+}
+.case {
+  background: var(--bg-panel);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-left: 2px solid var(--signal-amber);
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+.case:hover {
+  background: var(--bg-panel-hover);
+  transform: translateY(-4px);
+}
+.case .year {
+  font-family: var(--font-mono);
+  color: var(--signal-amber);
+  font-size: 1.5rem;
+  letter-spacing: 0.02em;
+}
+.case h3 {
+  font-size: 1.2rem;
+  margin: 0.35rem 0 1rem;
+}
+.case .event { font-size: 0.98rem; margin-bottom: 1.25rem; }
+.case .resp {
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.case .resp-label {
+  display: block;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  font-size: 0.68rem;
+  color: var(--signal-green);
+  margin-bottom: 0.5rem;
+}
+.case .resp p { font-size: 0.98rem; color: var(--text-main); }
+.case .cap {
+  display: inline-block;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* Heritage band */
+.heritage-note {
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  border-left: 2px solid rgba(255,255,255,0.12);
+  padding-left: 1rem;
+}
+
+/* Frontier band gets a cool wash to separate it from the proven work */
+.frontier-band {
+  border-top: 1px solid rgba(167, 139, 250, 0.15);
+  background:
+    radial-gradient(1200px 400px at 50% 0%, rgba(167,139,250,0.06), transparent 70%);
+}
+.frontier-band .section-label::after { background-color: var(--signal-violet); }
+.frontier-band .mono { color: var(--signal-violet); }
+
+/* Honesty disclosure callout (the brand) */
+.honest {
+  margin-top: 3.5rem;
+  padding: 1.5rem 1.75rem;
+  border: 1px dashed rgba(255,255,255,0.15);
+  border-radius: 4px;
+  background: rgba(255,255,255,0.015);
+}
+.honest .mono { color: var(--text-muted); display:block; margin-bottom: 0.6rem; }
+.honest p { font-size: 1rem; max-width: 75ch; }
+
+/* Caption under illustrative data */
+.caption {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+  letter-spacing: 0.03em;
+}
+
+/* Footer navigation (alternate menu path, visible at all widths incl. mobile) */
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.75rem;
+  padding-top: 4rem;
+}
+.footer-nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  transition: color 0.2s ease;
+}
+.footer-nav a:hover { color: var(--signal-amber); }
